@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #121214;
+    --foreground: #FFFFFF;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  
+  /* Custom brand colors matching your palette */
+  --color-dark-bg: #121214;
+  --color-surface-dark: #1E1E24;
+  --color-muted-gray: #A1A1AA;
+  --color-crimson: #E11D48;
+  --color-amber-accent: #F59E0B;
+}
+
+/* If you have the Monument Extended font file, declare it here. 
+   Otherwise, it will gracefully fallback to bold sans-serif */
+@font-face {
+  font-family: 'Monument Extended';
+  src: url('/fonts/MonumentExtended-Ultrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-monument {
+  font-family: 'Monument Extended', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
