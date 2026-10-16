@@ -11,6 +11,7 @@ import OurBrand from '@/components/landing/OurBrand';
 import BlogSection from '@/components/landing/BlogSection';
 import ContactSection from '@/components/landing/ContactSection';
 import StoreFooter from '@/components/landing/StoreFooter';
+import ScrollReveal from '@/components/animation/ScrollReveal';
 import { HOME_PRODUCT_LIMIT } from '@/components/landing/home-config';
 
 export const dynamic = 'force-dynamic';
@@ -37,14 +38,30 @@ export default async function StorefrontHomePage() {
     <>
       <Hero />
       <main>
-        <ProductCategories />
-        <SkinAnalysisBanner />
-        <FeaturedProducts products={featuredProducts} />
-        <NewIn />
-        <SpecialOffersBanner />
-        <OurBrand />
-        <BlogSection />
-        <ContactSection />
+        <ScrollReveal>
+          <ProductCategories />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <SkinAnalysisBanner />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <FeaturedProducts products={featuredProducts} />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <NewIn />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <SpecialOffersBanner />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <OurBrand />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <BlogSection />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <ContactSection />
+        </ScrollReveal>
       </main>
       <StoreFooter />
     </>
