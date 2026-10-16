@@ -2,10 +2,13 @@
 import { db } from '@/db';
 import { offers, products } from '@/db/schema';
 import Hero from '@/components/landing/Hero';
-import PromoSlider from '@/components/landing/PromoSlider';
-import OffersShowcase from '@/components/landing/OffersShowcase';
+import ProductCategories from '@/components/landing/ProductCategories';
+import SkinAnalysisBanner from '@/components/landing/SkinAnalysisBanner';
 import FeaturedProducts from '@/components/landing/FeaturedProducts';
-import AboutSection from '@/components/landing/AboutSection';
+import NewIn from '@/components/landing/NewIn';
+import SpecialOffersBanner from '@/components/landing/SpecialOffersBanner';
+import OurBrand from '@/components/landing/OurBrand';
+import BlogSection from '@/components/landing/BlogSection';
 import ContactSection from '@/components/landing/ContactSection';
 import StoreFooter from '@/components/landing/StoreFooter';
 import { HOME_PRODUCT_LIMIT } from '@/components/landing/home-config';
@@ -14,7 +17,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function StorefrontHomePage() {
   const now = new Date();
-  const [featuredProducts, timedOffers] = await Promise.all([
+  const [featuredProducts] = await Promise.all([
     db.select({
       id: products.id,
       name: products.name,
@@ -28,32 +31,19 @@ export default async function StorefrontHomePage() {
       .where(and(isNull(products.deletedAt), eq(products.isActive, true)))
       .orderBy(desc(products.isFeatured), desc(products.createdAt))
       .limit(HOME_PRODUCT_LIMIT),
-    db.select({
-      id: offers.id,
-      name: offers.name,
-      description: offers.description,
-      type: offers.type,
-      value: offers.value,
-      couponCode: offers.couponCode,
-      startAt: offers.startAt,
-      endAt: offers.endAt,
-      metadata: offers.metadata,
-    }).from(offers)
-      .where(and(eq(offers.isActive, true), isNotNull(offers.endAt), or(isNull(offers.startAt), lte(offers.startAt, now)), gt(offers.endAt, now)))
-      .orderBy(asc(offers.endAt))
-      .limit(6),
   ]);
-
-  const offersForDisplay = timedOffers.map((offer) => ({ ...offer, endAt: offer.endAt!.toISOString() }));
 
   return (
     <>
       <Hero />
       <main>
-        <PromoSlider />
-        <OffersShowcase offers={offersForDisplay} />
+        <ProductCategories />
+        <SkinAnalysisBanner />
         <FeaturedProducts products={featuredProducts} />
-        <AboutSection />
+        <NewIn />
+        <SpecialOffersBanner />
+        <OurBrand />
+        <BlogSection />
         <ContactSection />
       </main>
       <StoreFooter />

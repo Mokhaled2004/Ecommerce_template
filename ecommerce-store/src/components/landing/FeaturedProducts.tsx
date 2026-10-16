@@ -1,19 +1,213 @@
-﻿import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
-import { HOME_PRODUCT_LIMIT } from './home-config';
+﻿"use client";
 
-type Product = { id: string; name: string; sku: string; slug: string; price: string; compareAtPrice: string | null; imageUrl: string | null; isFeatured: boolean };
+import Image from "next/image";
+import Link from "next/link";
+import { Heart, Star, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+
+type Product = {
+  id: string;
+  name: string;
+  sku: string;
+  slug: string;
+  price: string;
+  compareAtPrice: string | null;
+  imageUrl: string | null;
+  isFeatured: boolean;
+};
+
+// Hardcoded bestseller products
+const BESTSELLERS = [
+  {
+    id: "best-1",
+    name: "Beautya Capture Total Dreamlskin Care & Perfect",
+    sku: "BEAU-001",
+    price: "70.00",
+    compareAtPrice: null,
+    image: "/images/products/bestsellers/12fd4930b4f7d02ac821c3a4f1b1a2e37d3af909.jpg",
+  },
+  {
+    id: "best-2",
+    name: "Beautya Capture Total Dreamlskin Care & Perfect",
+    sku: "BEAU-002",
+    price: "76.00",
+    compareAtPrice: null,
+    image: "/images/products/bestsellers/91b41092bd2d886b9e22c8c57d933f47d4b96cc1.jpg",
+  },
+  {
+    id: "best-3",
+    name: "Beautya Capture Total Dreamlskin Care & Perfect",
+    sku: "BEAU-003",
+    price: "70.00",
+    compareAtPrice: null,
+    image: "/images/products/bestsellers/9355b81c9f4bab35343f34edcddec04723e84ca1.jpg",
+  },
+  {
+    id: "best-4",
+    name: "Beautya Capture Total Dreamlskin Care & Perfect",
+    sku: "BEAU-004",
+    price: "76.00",
+    compareAtPrice: null,
+    image: "/images/products/bestsellers/94e49b3d0f5ee35304f91dee9cdead4a05923124.jpg",
+  },
+];
 
 export default function FeaturedProducts({ products }: { products: Product[] }) {
-  const visibleProducts = products.slice(0, HOME_PRODUCT_LIMIT);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
+
+  const scroll = (dir: "left" | "right") => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({ left: dir === "left" ? -300 : 300, behavior: "smooth" });
+  };
+
+  // Check scroll position and overflow
+  const checkScroll = () => {
+    if (!scrollRef.current) return;
+    
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    
+    // Show left arrow if scrolled right from start
+    setShowLeftArrow(scrollLeft > 10);
+    
+    // Show right arrow if not at the end
+    setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  useEffect(() => {
+    const element = scrollRef.current;
+    if (!element) return;
+
+    // Initial check
+    checkScroll();
+
+    // Listen to scroll events
+    element.addEventListener('scroll', checkScroll);
+    
+    // Listen to resize events
+    window.addEventListener('resize', checkScroll);
+    
+    return () => {
+      element.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, []);
+
   return (
-    <section id="featured" className="mx-auto max-w-7xl px-5 py-14 sm:px-10 lg:py-20">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
-        <div><p className="text-xs font-bold uppercase tracking-[0.32em] text-[#E11D48]">Picked for the rotation</p><h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">The featured lineup</h2><p className="mt-2 max-w-xl text-sm text-white/55">A few pairs we think deserve a closer look.</p></div>
-        <span className="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-white/55">{visibleProducts.length} styles</span>
+    <section className="py-14 sm:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a1a]">Our Best Sellers</h2>
+            <p className="text-sm text-[#888] mt-1">The products our customers love most</p>
+          </div>
+        </div>
+
+        {/* Product scroll with overlay arrows */}
+        <div className="relative">
+          {/* Left arrow - only show if can scroll left */}
+          {showLeftArrow && (
+            <button
+              onClick={() => scroll("left")}
+              aria-label="Scroll left"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center text-[#1a1a1a] hover:border-[#C8547A] hover:text-[#C8547A] transition-all"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          )}
+
+          {/* Right arrow - only show if can scroll right */}
+          {showRightArrow && (
+            <button
+              onClick={() => scroll("right")}
+              aria-label="Scroll right"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center text-[#1a1a1a] hover:border-[#C8547A] hover:text-[#C8547A] transition-all"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          )}
+
+          <div
+            ref={scrollRef}
+            className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory"
+            style={{ scrollbarWidth: "none" }}
+          >
+          {BESTSELLERS.map((product) => (
+            <article
+              key={product.id}
+              className="group flex-shrink-0 w-64 sm:w-72 snap-start"
+            >
+              <Link href="/shop" className="block">
+                {/* Image */}
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#F9F3F5] mb-3">
+                  <button
+                    aria-label="Add to wishlist"
+                    className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white shadow flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#C8547A]"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    <Heart className="w-4 h-4" />
+                  </button>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 640px) 56vw, 256px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* Add to cart overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <button 
+                      onClick={(e) => e.preventDefault()}
+                      className="w-full flex items-center justify-center gap-2 bg-[#C8547A] text-white py-2.5 text-xs font-semibold"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+
+                {/* Product info */}
+                <div>
+                  {/* Stars */}
+                  <div className="flex items-center gap-0.5 mb-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-3 h-3 ${i < 4 ? "fill-[#C8547A] text-[#C8547A]" : "fill-gray-200 text-gray-200"}`}
+                      />
+                    ))}
+                    <span className="text-[10px] text-[#888] ml-1">(48)</span>
+                  </div>
+                  <p className="text-sm font-semibold text-[#1a1a1a] line-clamp-1">{product.name}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-sm font-bold text-[#C8547A]">
+                      ${product.price}
+                    </span>
+                    {product.compareAtPrice && (
+                      <span className="text-xs text-[#888] line-through">
+                        ${product.compareAtPrice}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            </article>
+          ))}
+          </div>
+        </div>
+
+        {/* View all */}
+        <div className="text-center mt-8">
+          <Link
+            href="/shop"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full border border-[#C8547A] text-[#C8547A] font-semibold text-sm hover:bg-[#C8547A] hover:text-white transition-colors"
+          >
+            View All Products
+          </Link>
+        </div>
       </div>
-      {visibleProducts.length ? <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">{visibleProducts.map((product, index) => <article key={product.id} className="group"><Link href="#contact" aria-label={`Ask us about ${product.name}`} className="block"><div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/[0.06] bg-[#1E1E24]"><span className="absolute left-3 top-3 z-10 rounded-full bg-black/50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur">{product.isFeatured ? 'Featured' : `Style ${String(index + 1).padStart(2, '0')}`}</span>{product.imageUrl ? <Image src={product.imageUrl} alt={product.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" className="object-cover transition duration-500 group-hover:scale-105"/> : <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-950 text-xs uppercase tracking-widest text-white/30">Image coming soon</div>}<span className="absolute bottom-3 right-3 flex h-9 w-9 translate-y-2 items-center justify-center rounded-full bg-[#E11D48] text-white opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100"><ArrowUpRight className="h-4 w-4"/></span></div><h3 className="mt-3 line-clamp-1 text-sm font-bold text-white sm:text-base">{product.name}</h3><div className="mt-1 flex items-center gap-2"><span className="text-sm font-semibold text-white/75">${Number(product.price).toFixed(2)}</span>{product.compareAtPrice && Number(product.compareAtPrice) > Number(product.price) && <span className="text-xs text-white/35 line-through">${Number(product.compareAtPrice).toFixed(2)}</span>}</div></Link><p className="mt-1 text-[10px] font-mono tracking-wider text-white/35">{product.sku}</p></article>)}</div> : <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.02] px-6 py-14 text-center"><p className="font-semibold text-white/75">New styles are on the way.</p><p className="mt-2 text-sm text-white/45">Add active products in the admin to fill this lineup.</p></div>}
     </section>
   );
 }
