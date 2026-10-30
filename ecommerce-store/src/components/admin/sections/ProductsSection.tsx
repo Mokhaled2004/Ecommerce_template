@@ -256,13 +256,13 @@ export default function ProductsSection() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-[#121214]">Products Management</h2>
+          <h2 className="text-2xl font-bold text-[#C8547A]">Products Management</h2>
           <p className="text-gray-500 text-sm">Manage inventory, store offerings, pricing, and specs.</p>
         </div>
         
         <button
           onClick={() => setIsAddFormOpen(!isAddFormOpen)}
-          className="flex items-center justify-center p-3 sm:px-4 sm:py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-rose-600/10 cursor-pointer"
+          className="flex items-center justify-center p-3 sm:px-4 sm:py-2.5 bg-[#C8547A] hover:bg-[#E8A0B0] text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-pink-200/40 cursor-pointer"
         >
           {isAddFormOpen ? (
             <>
@@ -304,7 +304,7 @@ export default function ProductsSection() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-xl space-y-6">
             <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-              <h3 className="text-lg font-bold text-[#121214]">Edit Product</h3>
+              <h3 className="text-lg font-bold text-[#C8547A]">Edit Product</h3>
               <button onClick={() => setEditModalOpen(false)} className="text-gray-400 hover:text-gray-600 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
@@ -322,7 +322,7 @@ export default function ProductsSection() {
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
                     required
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
                   />
                 </div>
 
@@ -332,7 +332,7 @@ export default function ProductsSection() {
                     type="text"
                     value={editSku}
                     onChange={(e) => setEditSku(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
                   />
                 </div>
 
@@ -497,7 +497,7 @@ export default function ProductsSection() {
                         <button
                           type="button"
                           onClick={() => removeExistingGalleryItem(index)}
-                          className="absolute inset-0 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                          className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                           title="Remove image"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -505,12 +505,12 @@ export default function ProductsSection() {
                       </div>
                     ))}
                     {editGalleryPreviews.map((src, index) => (
-                      <div key={`new-${index}`} className="relative w-16 h-16 rounded-xl overflow-hidden border border-rose-300 group">
+                      <div key={`new-${index}`} className="relative w-16 h-16 rounded-xl overflow-hidden border border-pink-200 group">
                         <img src={src} alt="New gallery preview" className="w-full h-full object-cover" />
                         <button
                           type="button"
                           onClick={() => removeNewGalleryPreview(index)}
-                          className="absolute inset-0 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                          className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -557,11 +557,11 @@ export default function ProductsSection() {
                   </div>
                   <div className="flex items-center gap-6">
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={editIsActive} onChange={(e) => setEditIsActive(e.target.checked)} className="w-4 h-4 text-[#E11D48] rounded" />
+                      <input type="checkbox" checked={editIsActive} onChange={(e) => setEditIsActive(e.target.checked)} className="w-4 h-4 text-[#C8547A] rounded" />
                       <span className="text-sm font-semibold text-gray-700">Active</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={editIsFeatured} onChange={(e) => setEditIsFeatured(e.target.checked)} className="w-4 h-4 text-[#E11D48] rounded" />
+                      <input type="checkbox" checked={editIsFeatured} onChange={(e) => setEditIsFeatured(e.target.checked)} className="w-4 h-4 text-[#C8547A] rounded" />
                       <span className="text-sm font-semibold text-gray-700">Featured</span>
                     </label>
                   </div>
@@ -618,7 +618,7 @@ export default function ProductsSection() {
                 <button
                   type="submit"
                   disabled={editLoading}
-                  className="flex items-center gap-2 px-6 py-2 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md disabled:opacity-50 cursor-pointer"
+                  className="flex items-center gap-2 px-6 py-2 bg-[#C8547A] hover:bg-[#E8A0B0] text-white rounded-xl font-semibold text-sm transition-all shadow-md disabled:opacity-50 cursor-pointer"
                 >
                   {editLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                   <span>{editLoading ? 'Saving...' : 'Save Changes'}</span>

@@ -347,7 +347,7 @@ export default function ProductAddForm({ categories = [], onProductAdded }: Prod
                   <button
                     type="button"
                     onClick={() => removeGalleryPreview(index)}
-                    className="absolute inset-0 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

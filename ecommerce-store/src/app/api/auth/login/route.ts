@@ -14,7 +14,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing email or password' }, { status: 400 });
     }
 
-    const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    let user;
+    try {
+      // Try fetching with address field
+      const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+      user = result[0];
+    } catch (addressError) {
+      // Fallback if address column doesn't exist yet
+      const result = await db
+        .select({
+          id: users.id,
+          email: users.email,
+          fullName: users.fullName,
+          phoneNumber: users.phoneNumber,
+          passwordHash: users.passwordHash,
+          role: users.role,
+          isActive: users.isActive,
+          createdAt: users.createdAt,
+          updatedAt: users.updatedAt,
+        })
+        .from(users)
+        .where(eq(users.email, email))
+        .limit(1);
+      user = result[0];
+    }
+
     if (!user || !user.isActive) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }

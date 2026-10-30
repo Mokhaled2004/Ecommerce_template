@@ -49,7 +49,7 @@ export default function VairantsSection() {
         </div>
         <button
           onClick={() => { setVariantToEdit(null); setIsAddOpen(true); }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl text-sm font-semibold transition-all shadow-md shadow-rose-600/10"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#C8547A] hover:bg-[#E8A0B0] text-white rounded-xl text-sm font-semibold transition-all shadow-md shadow-pink-200/40"
         >
           <Plus className="w-4 h-4" />
           <span>Add Variant</span>
@@ -64,7 +64,7 @@ export default function VairantsSection() {
           placeholder="Search by SKU or Product Name..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E11D48]"
+          className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
         />
       </div>
 

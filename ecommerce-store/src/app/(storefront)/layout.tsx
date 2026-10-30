@@ -15,7 +15,8 @@ async function StorefrontHeader() {
       .orderBy(asc(categories.displayOrder), asc(categories.name)),
   ]);
   const token = cookieStore.get('auth_token')?.value;
-  const user = token ? verifyToken(token) : null;
+  const payload = token ? verifyToken(token) : null;
+  const user = payload ? { email: payload.email, name: payload.email.split('@')[0] } : null;
   return <Header user={user} categories={menuCategories} />;
 }
 

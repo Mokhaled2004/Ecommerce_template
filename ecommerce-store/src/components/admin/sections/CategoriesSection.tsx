@@ -124,7 +124,7 @@ export default function CategoriesSection() {
         {/* Toggle Button for Add Form (Icon only on mobile, text + icon on sm screens and up) */}
         <button
           onClick={() => setIsAddFormOpen(!isAddFormOpen)}
-          className="flex items-center justify-center p-3 sm:px-4 sm:py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-rose-600/10"
+          className="flex items-center justify-center p-3 sm:px-4 sm:py-2.5 bg-[#C8547A] hover:bg-[#E8A0B0] text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-pink-200/40"
           title={isAddFormOpen ? 'Close Form' : 'Add Category'}
         >
           {isAddFormOpen ? (
@@ -168,7 +168,7 @@ export default function CategoriesSection() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-[#121214]">Edit Category</h3>
+              <h3 className="text-lg font-bold text-[#C8547A]">Edit Category</h3>
               <button onClick={() => setEditModalOpen(false)} className="text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
@@ -184,7 +184,7 @@ export default function CategoriesSection() {
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
                   required
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
                 />
               </div>
 
@@ -195,7 +195,7 @@ export default function CategoriesSection() {
                   value={editSlug}
                   onChange={(e) => setEditSlug(e.target.value)}
                   required
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-mono text-gray-600 focus:outline-none focus:border-[#121214]"
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-mono text-gray-600 focus:outline-none focus:border-[#C8547A]"
                 />
               </div>
 
@@ -205,7 +205,7 @@ export default function CategoriesSection() {
                   <select
                     value={editParentId}
                     onChange={(e) => setEditParentId(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
                   >
                     <option value="">None (Top-Level)</option>
                     {categories
@@ -222,7 +222,7 @@ export default function CategoriesSection() {
                     type="number"
                     value={editDisplayOrder}
                     onChange={(e) => setEditDisplayOrder(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
                   />
                 </div>
               </div>
@@ -233,7 +233,7 @@ export default function CategoriesSection() {
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
                 />
               </div>
 
@@ -243,7 +243,7 @@ export default function CategoriesSection() {
                     type="checkbox"
                     checked={editIsActive}
                     onChange={(e) => setEditIsActive(e.target.checked)}
-                    className="w-4 h-4 text-[#E11D48] rounded border-gray-300 focus:ring-[#E11D48]"
+                    className="w-4 h-4 text-[#C8547A] rounded border-gray-300 focus:ring-[#C8547A]"
                   />
                   <span className="text-sm font-semibold text-gray-700">Is Active</span>
                 </label>
@@ -260,7 +260,7 @@ export default function CategoriesSection() {
                 <button
                   type="submit"
                   disabled={editLoading}
-                  className="flex items-center gap-2 px-6 py-2 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-2 bg-[#C8547A] hover:bg-[#E8A0B0] text-white rounded-xl font-semibold text-sm transition-all shadow-md disabled:opacity-50"
                 >
                   {editLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                   <span>{editLoading ? 'Saving...' : 'Save Changes'}</span>

@@ -113,7 +113,7 @@ export default function VariantTable({ variants, onEdit, onDelete }: VariantTabl
                     </button>
                     <button 
                       onClick={() => onDelete(variant)}
-                      className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                      className="p-1.5 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-xl transition-colors"
                       title="Delete Variant"
                     >
                       <Trash2 className="w-4 h-4" />

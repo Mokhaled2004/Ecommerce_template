@@ -75,17 +75,17 @@ export default function AdminSidebar({
             className={`relative flex items-center transition-all duration-300 ${isCollapsed ? "w-8 h-8" : "w-32 h-8"}`}
           >
             <Image
-              src="/images/logo.png"
-              alt="Store Logo"
-              fill
-              sizes={isCollapsed ? "32px" : "128px"}
+              src="/images/icons/Beautya.svg"
+              alt="Beautya"
+              width={isCollapsed ? 32 : 128}
+              height={32}
               className="object-contain object-center"
               priority
             />
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="absolute right-4 lg:hidden text-gray-500 hover:text-[#121214]"
+            className="absolute right-4 lg:hidden text-gray-500 hover:text-[#C8547A]"
           >
             <X className="w-5 h-5" />
           </button>
@@ -102,12 +102,12 @@ export default function AdminSidebar({
             title={isCollapsed ? "Dashboard" : ""}
             className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all group font-medium text-left ${
               activeTab === "dashboard"
-                ? "bg-gray-100 text-[#121214] shadow-sm"
+                ? "bg-pink-50 text-[#121214] shadow-sm"
                 : "text-gray-600 hover:bg-gray-50 hover:text-[#121214]"
             } ${isCollapsed ? "justify-center px-0" : ""}`}
           >
             <LayoutDashboard
-              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "dashboard" ? "text-[#E11D48]" : "text-gray-500 group-hover:text-[#E11D48]"}`}
+              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "dashboard" ? "text-[#C8547A]" : "text-gray-500 group-hover:text-[#C8547A]"}`}
             />
             {!isCollapsed && <span className="truncate">Dashboard</span>}
           </button>
@@ -121,12 +121,12 @@ export default function AdminSidebar({
             title={isCollapsed ? "Categories" : ""}
             className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all group font-medium text-left ${
               activeTab === "categories"
-                ? "bg-gray-100 text-[#121214] shadow-sm"
+                ? "bg-pink-50 text-[#121214] shadow-sm"
                 : "text-gray-600 hover:bg-gray-50 hover:text-[#121214]"
             } ${isCollapsed ? "justify-center px-0" : ""}`}
           >
             <FolderTree
-              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "categories" ? "text-[#E11D48]" : "text-gray-500 group-hover:text-[#E11D48]"}`}
+              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "categories" ? "text-[#C8547A]" : "text-gray-500 group-hover:text-[#C8547A]"}`}
             />
             {!isCollapsed && <span className="truncate">Categories</span>}
           </button>
@@ -141,12 +141,12 @@ export default function AdminSidebar({
               title={isCollapsed ? "Products" : ""}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all group font-medium text-left ${
                 activeTab === "products"
-                  ? "bg-gray-100 text-[#121214] shadow-sm"
+                  ? "bg-pink-50 text-[#121214] shadow-sm"
                   : "text-gray-600 hover:bg-gray-50 hover:text-[#121214]"
               } ${isCollapsed ? "justify-center px-0" : ""}`}
             >
               <Package
-                className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "products" ? "text-[#E11D48]" : "text-gray-500 group-hover:text-[#E11D48]"}`}
+                className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "products" ? "text-[#C8547A]" : "text-gray-500 group-hover:text-[#C8547A]"}`}
               />
               {!isCollapsed && <span className="truncate">Products</span>}
             </button>
@@ -157,7 +157,7 @@ export default function AdminSidebar({
                 className={`grid transition-all duration-300 ease-in-out ${isProductsGroupActive ? "grid-rows-[1fr] opacity-100 mt-1" : "grid-rows-[0fr] opacity-0 overflow-hidden"}`}
               >
                 <div className="overflow-hidden">
-                  <div className="relative pl-6 ml-6 border-l-2 border-gray-100 py-0.5">
+                  <div className="relative pl-6 ml-6 border-l-2 border-pink-200 py-0.5">
                     <button
                       onClick={() => {
                         setActiveTab("variants");
@@ -165,12 +165,12 @@ export default function AdminSidebar({
                       }}
                       className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all group font-medium text-left text-xs ${
                         activeTab === "variants"
-                          ? "bg-rose-50 text-[#E11D48] font-semibold shadow-xs"
+                          ? "bg-pink-100 text-[#C8547A] font-semibold shadow-xs"
                           : "text-gray-500 hover:bg-gray-50 hover:text-[#121214]"
                       }`}
                     >
                       <Layers
-                        className={`w-4 h-4 shrink-0 transition-colors ${activeTab === "variants" ? "text-[#E11D48]" : "text-gray-400 group-hover:text-[#E11D48]"}`}
+                        className={`w-4 h-4 shrink-0 transition-colors ${activeTab === "variants" ? "text-[#C8547A]" : "text-gray-400 group-hover:text-[#C8547A]"}`}
                       />
                       <span className="truncate">Variants</span>
                     </button>
@@ -189,12 +189,12 @@ export default function AdminSidebar({
             title={isCollapsed ? "Packages" : ""}
             className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all group font-medium text-left ${
               activeTab === "packages"
-                ? "bg-gray-100 text-[#121214] shadow-sm"
+                ? "bg-pink-50 text-[#121214] shadow-sm"
                 : "text-gray-600 hover:bg-gray-50 hover:text-[#121214]"
             } ${isCollapsed ? "justify-center px-0" : ""}`}
           >
             <Gift
-              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "packages" ? "text-[#E11D48]" : "text-gray-500 group-hover:text-[#E11D48]"}`}
+              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "packages" ? "text-[#C8547A]" : "text-gray-500 group-hover:text-[#C8547A]"}`}
             />
             {!isCollapsed && <span className="truncate">Packages</span>}
           </button>
@@ -208,12 +208,12 @@ export default function AdminSidebar({
             title={isCollapsed ? "Offers" : ""}
             className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all group font-medium text-left ${
               activeTab === "offers"
-                ? "bg-gray-100 text-[#121214] shadow-sm"
+                ? "bg-pink-50 text-[#121214] shadow-sm"
                 : "text-gray-600 hover:bg-gray-50 hover:text-[#121214]"
             } ${isCollapsed ? "justify-center px-0" : ""}`}
           >
             <Tag
-              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "offers" ? "text-[#E11D48]" : "text-gray-500 group-hover:text-[#E11D48]"}`}
+              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "offers" ? "text-[#C8547A]" : "text-gray-500 group-hover:text-[#C8547A]"}`}
             />
             {!isCollapsed && <span className="truncate">Offers</span>}
           </button>
@@ -227,12 +227,12 @@ export default function AdminSidebar({
             title={isCollapsed ? "Orders" : ""}
             className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all group font-medium text-left ${
               activeTab === "orders"
-                ? "bg-gray-100 text-[#121214] shadow-sm"
+                ? "bg-pink-50 text-[#121214] shadow-sm"
                 : "text-gray-600 hover:bg-gray-50 hover:text-[#121214]"
             } ${isCollapsed ? "justify-center px-0" : ""}`}
           >
             <ShoppingCart
-              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "orders" ? "text-[#E11D48]" : "text-gray-500 group-hover:text-[#E11D48]"}`}
+              className={`w-5 h-5 shrink-0 transition-colors ${activeTab === "orders" ? "text-[#C8547A]" : "text-gray-500 group-hover:text-[#C8547A]"}`}
             />
             {!isCollapsed && <span className="truncate">Orders</span>}
           </button>
@@ -243,7 +243,7 @@ export default function AdminSidebar({
           <a
             href="/admin-login"
             title={isCollapsed ? "Logout" : ""}
-            className={`flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl transition-all text-sm font-semibold shadow-md shadow-rose-600/10 ${
+            className={`flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-gradient-to-r from-[#C8547A] to-[#b04468] hover:from-[#b04468] hover:to-[#a03d5a] text-white rounded-xl transition-all text-sm font-semibold shadow-md shadow-pink-200/40 ${
               isCollapsed ? "px-0" : ""
             }`}
           >

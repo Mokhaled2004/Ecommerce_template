@@ -44,7 +44,7 @@ export default function OfferDeleteModal({ isOpen, offer, onClose, onConfirm, lo
             type="button"
             disabled={loading}
             onClick={() => onConfirm(offer.id)}
-            className="flex items-center gap-2 px-5 py-2 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md disabled:opacity-50"
           >
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             <span>{loading ? 'Deleting...' : 'Delete Offer'}</span>

@@ -27,9 +27,21 @@ export const users = pgTable(
     fullName: varchar("full_name", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
     phoneNumber: varchar("phone_number", { length: 30 }),
+    address: text("address"),
     passwordHash: varchar("password_hash", { length: 255 }).notNull(),
     role: varchar("role", { length: 20 }).notNull().default("customer"),
     isActive: boolean("is_active").notNull().default(true),
+    
+    // Email notification preferences
+    emailNotificationsOrderUpdates: boolean("email_notifications_order_updates").notNull().default(true),
+    emailNotificationsPromotions: boolean("email_notifications_promotions").notNull().default(true),
+    emailNotificationsNewsletter: boolean("email_notifications_newsletter").notNull().default(false),
+    
+    // Privacy and data settings
+    privacyAllowMarketing: boolean("privacy_allow_marketing").notNull().default(false),
+    privacyAllowThirdParty: boolean("privacy_allow_third_party").notNull().default(false),
+    privacyDataRetention: varchar("privacy_data_retention", { length: 50 }).notNull().default("12_months"),
+    
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },

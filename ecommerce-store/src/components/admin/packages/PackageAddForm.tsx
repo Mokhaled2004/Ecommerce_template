@@ -138,7 +138,7 @@ export default function PackageAddForm({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden my-8">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <h3 className="text-lg font-bold text-[#121214]">
+          <h3 className="text-lg font-bold text-[#C8547A]">
             {packageData ? 'Edit Package Bundle' : 'Create Package Bundle'}
           </h3>
           <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 rounded-lg">
@@ -162,7 +162,7 @@ export default function PackageAddForm({
                     setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''));
                   }
                 }}
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
               />
             </div>
             <div>
@@ -186,7 +186,7 @@ export default function PackageAddForm({
                 required
                 value={offeredPrice}
                 onChange={(e) => setOfferedPrice(e.target.value)}
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
               />
             </div>
             <div>
@@ -196,7 +196,7 @@ export default function PackageAddForm({
                 step="0.01"
                 value={originalPrice}
                 onChange={(e) => setOriginalPrice(e.target.value)}
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#121214]"
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#C8547A]"
               />
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function PackageAddForm({
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full text-xs text-gray-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
+                  className="w-full text-xs text-gray-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-pink-50 file:text-[#C8547A] hover:file:bg-pink-100 cursor-pointer"
                 />
               </div>
             </div>
@@ -230,7 +230,7 @@ export default function PackageAddForm({
               <button
                 type="button"
                 onClick={addItem}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[#E11D48] bg-rose-50 px-3 py-1.5 rounded-xl hover:bg-rose-100 transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[#C8547A] bg-pink-50 px-3 py-1.5 rounded-xl hover:bg-pink-100 transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" /> Add Item
               </button>
@@ -268,7 +268,7 @@ export default function PackageAddForm({
                         <button
                           type="button"
                           onClick={() => removeItem(index)}
-                          className="p-2 text-gray-400 hover:text-red-600 rounded-xl transition-colors"
+                          className="p-2 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-xl transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -312,7 +312,7 @@ export default function PackageAddForm({
             <button 
               type="submit" 
               disabled={loading} 
-              className="flex items-center gap-2 px-6 py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-rose-600/10 disabled:opacity-50"
+              className="flex items-center gap-2 px-6 py-2.5 bg-[#C8547A] hover:bg-[#E8A0B0] text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-pink-200/40 disabled:opacity-50"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
               <span>{loading ? 'Saving...' : packageData ? 'Update Package' : 'Create Package'}</span>

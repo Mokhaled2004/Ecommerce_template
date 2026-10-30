@@ -261,7 +261,7 @@ export default function CategoryAddForm({ categories = [], onCategoryAdded }: Ca
               <div key={k} className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-lg text-xs font-mono">
                 <span className="font-bold text-gray-700">{k}:</span>
                 <span className="text-gray-500">{String(v)}</span>
-                <button type="button" onClick={() => handleRemoveMetadata(k)} className="text-red-500 hover:text-red-700">
+                <button type="button" onClick={() => handleRemoveMetadata(k)} className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-full p-0.5 transition-colors">
                   <X className="w-3.5 h-3.5" />
                 </button>
               </div>

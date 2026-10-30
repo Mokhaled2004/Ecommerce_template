@@ -48,7 +48,7 @@ export default function PackageDeleteModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <div className="flex items-center gap-2 text-rose-600">
+          <div className="flex items-center gap-2 text-[#C8547A]">
             <AlertTriangle className="w-5 h-5" />
             <h3 className="text-lg font-semibold text-gray-900">Delete Package</h3>
           </div>
@@ -62,7 +62,7 @@ export default function PackageDeleteModal({
 
         <div className="p-6 space-y-4">
           {error && (
-            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-xl">
+            <div className="p-3 bg-pink-50 border border-pink-200 text-[#C8547A] text-sm rounded-xl">
               {error}
             </div>
           )}
@@ -83,7 +83,7 @@ export default function PackageDeleteModal({
               type="button"
               disabled={loading}
               onClick={handleDelete}
-              className="px-5 py-2 bg-rose-600 text-white text-sm font-medium rounded-xl hover:bg-rose-700 transition-colors disabled:opacity-50"
+              className="px-5 py-2 bg-[#C8547A] text-white text-sm font-medium rounded-xl hover:bg-[#E8A0B0] transition-colors disabled:opacity-50"
             >
               {loading ? 'Deleting...' : 'Delete Package'}
             </button>

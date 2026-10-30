@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CartContents, useCart } from "@/components/cart/CartProvider";
-import { Search, ShoppingBag, User, X, Menu, Heart } from "lucide-react";
+import { Search, ShoppingBag, User, X, Menu, Heart, LogOut } from "lucide-react";
 
 type MenuCategory = { id: string; name: string; slug: string };
 
@@ -18,13 +18,36 @@ interface HeaderProps {
 export default function Header({ user, categories: dbCategories }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!user);
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Check if user is logged in on mount and when user prop changes
+  useEffect(() => {
+    setIsLoggedIn(!!user);
+  }, [user]);
 
   const { items } = useCart();
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
+
+  const handleLogout = async () => {
+    try {
+      setIsUserMenuOpen(false);
+      const response = await fetch('/api/auth/logout', { method: 'POST' });
+      // Redirect regardless of response, as cookie will be deleted
+      setTimeout(() => {
+        window.location.href = '/auth/login';
+      }, 100);
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still redirect even if fetch fails
+      window.location.href = '/auth/login';
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -145,10 +168,50 @@ export default function Header({ user, categories: dbCategories }: HeaderProps) 
                 </span>
               )}
             </button>
-            {user ? (
-              <Link href="/profile" aria-label="Profile" className="text-[#1a1a1a] hover:text-[#C8547A] transition-colors">
-                <User className="w-5 h-5" />
-              </Link>
+            {isLoggedIn && user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  aria-label="User menu"
+                  className="text-[#1a1a1a] hover:text-[#C8547A] transition-colors mt-0.5"
+                >
+                  <User className="w-5 h-5" />
+                </button>
+                <AnimatePresence>
+                  {isUserMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden"
+                    >
+                      <div className="px-4 py-3 border-b border-gray-100">
+                        <p className="text-sm font-semibold text-[#1a1a1a]">{user.name}</p>
+                        <p className="text-xs text-[#888]">{user.email}</p>
+                      </div>
+                      <Link
+                        href="/profile"
+                        onClick={() => setIsUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-3 text-sm text-[#1a1a1a] hover:bg-pink-50 hover:text-[#C8547A] transition-colors"
+                      >
+                        <User className="w-4 h-4" />
+                        My Profile
+                      </Link>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLogout();
+                        }}
+                        type="button"
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <Link
                 href="/auth/login"
@@ -198,7 +261,7 @@ export default function Header({ user, categories: dbCategories }: HeaderProps) 
                   </Link>
                 ))}
               </nav>
-              {!user && (
+              {!isLoggedIn && (
                 <div className="mt-auto pt-8 border-t border-gray-100">
                   <Link
                     href="/auth/login"

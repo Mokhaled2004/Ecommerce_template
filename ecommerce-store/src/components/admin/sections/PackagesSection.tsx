@@ -69,7 +69,7 @@ export default function PackagesSection() {
               setSelectedPackage(null);
               setIsAddOpen(!isAddOpen);
             }}
-            className="flex items-center justify-center p-3 sm:px-4 sm:py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-rose-600/10"
+            className="flex items-center justify-center p-3 sm:px-4 sm:py-2.5 bg-[#C8547A] hover:bg-[#E8A0B0] text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-pink-200/40"
             title={isAddOpen ? 'Close Form' : 'Create Package'}
           >
             {isAddOpen ? (

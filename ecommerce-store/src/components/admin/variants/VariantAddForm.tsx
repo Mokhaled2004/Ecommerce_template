@@ -148,7 +148,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h3 className="text-lg font-semibold text-[#121214]">
+          <h3 className="text-lg font-semibold text-[#C8547A]">
             {variantToEdit ? 'Edit Product Variant' : 'Add New Variant'}
           </h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -157,7 +157,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4 flex-1">
-          {error && <div className="p-3 bg-rose-50 text-rose-600 rounded-xl text-sm">{error}</div>}
+          {error && <div className="p-3 bg-pink-50 text-[#C8547A] rounded-xl text-sm">{error}</div>}
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Parent Product</label>
@@ -165,7 +165,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
               required
               value={productId}
               onChange={(e) => setProductId(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E11D48]"
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#C8547A]"
             >
               <option value="">Select a product...</option>
               {productsList.map((p) => (
@@ -182,7 +182,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
               placeholder="e.g. SHIRT-RED-M"
               value={sku}
               onChange={(e) => setSku(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E11D48]"
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#C8547A]"
             />
           </div>
 
@@ -195,7 +195,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
                 placeholder="Leave blank for base price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E11D48]"
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#C8547A]"
               />
             </div>
             <div>
@@ -205,7 +205,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
                 required
                 value={stock}
                 onChange={(e) => setStock(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E11D48]"
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#C8547A]"
               />
             </div>
           </div>
@@ -227,7 +227,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-[#E11D48] hover:file:bg-rose-100"
+                className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-pink-50 file:text-[#C8547A] hover:file:bg-pink-100"
               />
             </div>
           </div>
@@ -239,7 +239,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
               <button
                 type="button"
                 onClick={handleAddAttribute}
-                className="text-xs font-semibold text-[#E11D48] hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-[#C8547A] hover:underline flex items-center gap-1"
               >
                 <Plus className="w-3.5 h-3.5" /> Add Attribute
               </button>
@@ -264,7 +264,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
                   <button
                     type="button"
                     onClick={() => handleRemoveAttribute(index)}
-                    className="p-2 text-gray-400 hover:text-rose-600 rounded-lg"
+                    className="p-2 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-xl transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -279,7 +279,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
               id="isActive"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="rounded border-gray-300 text-[#E11D48] focus:ring-[#E11D48]"
+              className="rounded border-gray-300 text-[#C8547A] focus:ring-[#C8547A]"
             />
             <label htmlFor="isActive" className="text-sm font-medium text-gray-700">Active Variant</label>
           </div>
@@ -295,7 +295,7 @@ export default function VariantAddForm({ isOpen, onClose, onSuccess, variantToEd
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 bg-[#E11D48] text-white rounded-xl text-sm font-semibold hover:bg-rose-700 disabled:opacity-50"
+              className="px-5 py-2 bg-[#C8547A] text-white rounded-xl text-sm font-semibold hover:bg-[#E8A0B0] disabled:opacity-50"
             >
               {loading ? 'Saving...' : variantToEdit ? 'Save Changes' : 'Create Variant'}
             </button>

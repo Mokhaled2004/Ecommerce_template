@@ -37,7 +37,7 @@ export default function VariantDeleteModal({ isOpen, onClose, onSuccess, variant
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-600">
+          <div className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-[#C8547A]">
             <AlertTriangle className="w-5 h-5" />
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -52,7 +52,7 @@ export default function VariantDeleteModal({ isOpen, onClose, onSuccess, variant
           </p>
         </div>
 
-        {error && <div className="p-3 bg-rose-50 text-rose-600 rounded-xl text-sm">{error}</div>}
+        {error && <div className="p-3 bg-pink-50 text-[#C8547A] rounded-xl text-sm">{error}</div>}
 
         <div className="flex justify-end gap-3 pt-2">
           <button
@@ -66,7 +66,7 @@ export default function VariantDeleteModal({ isOpen, onClose, onSuccess, variant
             type="button"
             disabled={loading}
             onClick={handleDelete}
-            className="px-5 py-2 bg-rose-600 text-white rounded-xl text-sm font-semibold hover:bg-rose-700 disabled:opacity-50"
+            className="px-5 py-2 bg-[#C8547A] text-white rounded-xl text-sm font-semibold hover:bg-[#E8A0B0] disabled:opacity-50"
           >
             {loading ? 'Deleting...' : 'Delete Variant'}
           </button>
