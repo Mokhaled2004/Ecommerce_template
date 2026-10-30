@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Star, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, Star, ShoppingBag, ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
+import { useCart } from "@/components/cart/CartProvider";
+import { useWishlist } from "@/components/wishlist/WishlistProvider";
 import { NEWIN_IMAGES } from "./home-config";
 
 const NEWIN_PRODUCTS = [
@@ -16,9 +18,45 @@ const NEWIN_PRODUCTS = [
 ];
 
 export default function NewIn() {
+  const { addItem } = useCart();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
+  const [addedItems, setAddedItems] = useState<Set<string>>(new Set());
+
+  const handleAddToBag = (product: any) => {
+    addItem({
+      productId: product.id,
+      name: product.name,
+      sku: `SKU-${product.id}`,
+      price: parseFloat(product.price),
+      imageUrl: product.image,
+    });
+
+    // Show confirmation feedback
+    setAddedItems((prev) => new Set(prev).add(product.id));
+    setTimeout(() => {
+      setAddedItems((prev) => {
+        const next = new Set(prev);
+        next.delete(product.id);
+        return next;
+      });
+    }, 2000);
+  };
+
+  const handleToggleWishlist = (product: any) => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist({
+        productId: product.id,
+        name: product.name,
+        price: parseFloat(product.price),
+        imageUrl: product.image,
+      });
+    }
+  };
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -137,10 +175,17 @@ export default function NewIn() {
                         )}
                         <button
                           aria-label="Add to wishlist"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleToggleWishlist(product);
+                          }}
                           className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white shadow flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#C8547A]"
-                          onClick={(e) => e.preventDefault()}
                         >
-                          <Heart className="w-4 h-4" />
+                          <Heart
+                            className="w-4 h-4 transition-colors"
+                            fill={isInWishlist(product.id) ? "#C8547A" : "none"}
+                            color={isInWishlist(product.id) ? "#C8547A" : "currentColor"}
+                          />
                         </button>
                         <Image
                           src={product.image}
@@ -151,11 +196,27 @@ export default function NewIn() {
                         />
                         <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                           <button 
-                            onClick={(e) => e.preventDefault()}
-                            className="w-full flex items-center justify-center gap-2 bg-[#C8547A] text-white py-2.5 text-xs font-semibold"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAddToBag(product);
+                            }}
+                            className={`w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold transition-all ${
+                              addedItems.has(product.id)
+                                ? "bg-green-500 text-white"
+                                : "bg-[#C8547A] text-white hover:bg-[#b04468]"
+                            }`}
                           >
-                            <ShoppingBag className="w-3.5 h-3.5" />
-                            Add to Bag
+                            {addedItems.has(product.id) ? (
+                              <>
+                                <Check className="w-3.5 h-3.5" />
+                                Added!
+                              </>
+                            ) : (
+                              <>
+                                <ShoppingBag className="w-3.5 h-3.5" />
+                                Add to Bag
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>

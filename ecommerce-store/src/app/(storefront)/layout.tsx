@@ -5,6 +5,7 @@ import { and, asc, eq, isNull } from 'drizzle-orm';
 import { db } from '@/db';
 import { categories } from '@/db/schema';
 import CartProvider from '@/components/cart/CartProvider';
+import WishlistProvider from '@/components/wishlist/WishlistProvider';
 import { Suspense } from 'react';
 
 async function StorefrontHeader() {
@@ -26,9 +27,13 @@ export default async function StorefrontLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CartProvider><div className="min-h-screen bg-white text-[#1a1a1a] flex flex-col relative">
-      <Suspense fallback={<div aria-hidden="true" className="h-10 w-full bg-[#3B1A26]" />}><StorefrontHeader /></Suspense>
-      <div className="flex-grow">{children}</div>
-    </div></CartProvider>
+    <WishlistProvider>
+      <CartProvider>
+        <div className="min-h-screen bg-white text-[#1a1a1a] flex flex-col relative">
+          <Suspense fallback={<div aria-hidden="true" className="h-10 w-full bg-[#3B1A26]" />}><StorefrontHeader /></Suspense>
+          <div className="flex-grow">{children}</div>
+        </div>
+      </CartProvider>
+    </WishlistProvider>
   );
 }

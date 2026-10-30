@@ -486,18 +486,20 @@ export default function ProfilePage() {
             </section>
 
             <section id="wishlist" className="bg-white rounded-2xl shadow-lg shadow-pink-100/50 border border-gray-100 p-8">
-              <h2 className="text-2xl font-bold text-[#3B1A26] mb-6">Wishlist</h2>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-[#3B1A26]">Wishlist</h2>
+              </div>
 
               <div className="text-center py-12">
                 <Heart className="w-12 h-12 text-[#C8547A] mx-auto mb-4 opacity-50" />
-                <p className="text-[#888] font-semibold mb-2">Your wishlist is empty</p>
-                <p className="text-sm text-[#888] mb-6">Add your favorite products to save for later</p>
+                <p className="text-[#888] font-semibold mb-2">View your saved items</p>
+                <p className="text-sm text-[#888] mb-6">Visit your wishlist page to see all your favorite products in one place</p>
                 <Link
-                  href="/shop"
+                  href="/wishlist"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#C8547A] to-[#b04468] hover:from-[#b04468] hover:to-[#a03d5a] text-white rounded-xl font-semibold transition-all shadow-md shadow-[#C8547A]/30"
                 >
                   <Heart className="w-5 h-5" />
-                  Explore Products
+                  Go to Wishlist
                 </Link>
               </div>
             </section>

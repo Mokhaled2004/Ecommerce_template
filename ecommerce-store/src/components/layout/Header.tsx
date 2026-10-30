@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -6,6 +6,10 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { CartContents, useCart } from "@/components/cart/CartProvider";
+import { useWishlist } from "@/components/wishlist/WishlistProvider";
+import SearchModal from "@/components/search/SearchModal";
+import MegaMenu from "./MegaMenu";
+import MobileMenu from "./MobileMenu";
 import { Search, ShoppingBag, User, X, Menu, Heart, LogOut } from "lucide-react";
 
 type MenuCategory = { id: string; name: string; slug: string };
@@ -19,10 +23,13 @@ export default function Header({ user, categories: dbCategories }: HeaderProps) 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(!!user);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const menuTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -32,7 +39,9 @@ export default function Header({ user, categories: dbCategories }: HeaderProps) 
   }, [user]);
 
   const { items } = useCart();
+  const { items: wishlistItems } = useWishlist();
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
+  const wishlistCount = wishlistItems.length;
 
   const handleLogout = async () => {
     try {
@@ -72,15 +81,18 @@ export default function Header({ user, categories: dbCategories }: HeaderProps) 
 
   const navLinks = [
     { name: "Homepage", href: "/" },
-    { name: "New Collections", href: "/shop" },
-    ...dbCategories.map((c) => ({ name: c.name, href: `/shop?category=${encodeURIComponent(c.slug)}` })),
-    { name: "Offers", href: "/shop?sale=true" },
+    { name: "Women's Makeup", href: "/category/makeup" },
+    { name: "Women Skincare", href: "/category/skincare" },
+    { name: "Gifts & Sets", href: "/category/gifts" },
     { name: "Our Blog", href: "#blog" },
     { name: "Contact", href: "#contact" },
   ];
 
   return (
     <>
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+
       {/* Top announcement bar */}
       <div className="bg-[#3B1A26] text-white text-center text-xs py-2 px-4 tracking-wide">
         Free shipping on orders over $50 — Use code <span className="font-bold text-[#E8A0B0]">BEAUTYA</span>
@@ -95,67 +107,139 @@ export default function Header({ user, categories: dbCategories }: HeaderProps) 
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
 
-          {/* Left nav — desktop */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {navLinks.slice(0, 3).map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-[#C8547A] ${
-                  pathname === link.href ? "text-[#C8547A]" : "text-[#1a1a1a]"
-                }`}
-              >
-                {link.name}
+          {/* Left: Logo + Mobile hamburger */}
+          <div className="flex items-center gap-4">
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden text-[#1a1a1a] hover:text-[#C8547A] transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/images/icons/Beautya.svg"
+                  alt="Beautya"
+                  width={120}
+                  height={36}
+                  className="h-8 w-auto"
+                  priority
+                />
               </Link>
-            ))}
-          </nav>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden text-[#1a1a1a] hover:text-[#C8547A] transition-colors"
-            aria-label="Open menu"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
-
-          {/* Center logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/images/icons/Beautya.svg"
-                alt="Beautya"
-                width={120}
-                height={36}
-                className="h-8 w-auto"
-                priority
-              />
-            </Link>
+            </div>
           </div>
 
-          {/* Right nav — desktop */}
+          {/* Center: Navigation links — desktop only */}
           <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {navLinks.slice(3).map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-[#C8547A] ${
-                  pathname === link.href ? "text-[#C8547A]" : "text-[#1a1a1a]"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.slice(0, 4).map((link) => {
+              // Check if this is a category link (has /category/ in href)
+              const isCategory = link.href.includes('/category/');
+              const categorySlug = isCategory ? link.href.split('/category/')[1] : null;
+              
+              if (isCategory && categorySlug) {
+                return (
+                  <div 
+                    key={link.name}
+                    onMouseEnter={() => {
+                      if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+                      setActiveMenu(categorySlug);
+                    }}
+                    onMouseLeave={() => {
+                      menuTimeoutRef.current = setTimeout(() => {
+                        setActiveMenu(null);
+                      }, 300);
+                    }}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`text-sm font-medium transition-colors hover:text-[#C8547A] ${
+                        pathname === link.href ? "text-[#C8547A]" : "text-[#1a1a1a]"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                    <AnimatePresence>
+                      {activeMenu === categorySlug && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.2 }}
+                          onMouseEnter={() => {
+                            if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+                            setActiveMenu(categorySlug);
+                          }}
+                          onMouseLeave={() => {
+                            menuTimeoutRef.current = setTimeout(() => {
+                              setActiveMenu(null);
+                            }, 300);
+                          }}
+                          className="absolute left-1/2 -translate-x-1/2 top-full bg-white shadow-xl border-t-4 border-[#C8547A] z-50 w-screen"
+                        >
+                          <MegaMenu trigger={categorySlug} isOpen={true} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+              
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors hover:text-[#C8547A] ${
+                    pathname === link.href ? "text-[#C8547A]" : "text-[#1a1a1a]"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* Right action icons */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            <button aria-label="Search" className="text-[#1a1a1a] hover:text-[#C8547A] transition-colors">
+          {/* Right: More nav + action icons */}
+          <div className="flex items-center gap-6">
+            {/* Right nav — desktop */}
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+              {navLinks.slice(4).map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors hover:text-[#C8547A] ${
+                    pathname === link.href ? "text-[#C8547A]" : "text-[#1a1a1a]"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Right action icons */}
+            <div className="flex items-center gap-3 sm:gap-4">
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              aria-label="Search"
+              className="text-[#1a1a1a] hover:text-[#C8547A] transition-colors"
+            >
               <Search className="w-5 h-5" />
             </button>
-            <button aria-label="Wishlist" className="hidden sm:block text-[#1a1a1a] hover:text-[#C8547A] transition-colors">
-              <Heart className="w-5 h-5" />
-            </button>
+            <Link href="/wishlist" aria-label="Wishlist" className="hidden sm:block text-[#1a1a1a] hover:text-[#C8547A] transition-colors relative">
+              <Heart
+                className="w-5 h-5"
+                fill={wishlistCount > 0 ? "#C8547A" : "none"}
+                color={wishlistCount > 0 ? "#C8547A" : "currentColor"}
+              />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-2 -right-2 h-4 min-w-4 flex items-center justify-center rounded-full bg-[#C8547A] text-white text-[9px] font-bold px-1">
+                  {wishlistCount > 99 ? "99+" : wishlistCount}
+                </span>
+              )}
+            </Link>
             <button
               onClick={() => setIsCartOpen(true)}
               aria-label="Cart"
@@ -222,60 +306,17 @@ export default function Header({ user, categories: dbCategories }: HeaderProps) 
               </Link>
             )}
           </div>
+            </div>
         </div>
       </header>
 
-      {/* Mobile Menu Drawer */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-50 flex">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="relative w-4/5 max-w-sm h-full bg-white p-8 flex flex-col z-10 shadow-2xl"
-            >
-              <div className="flex items-center justify-between mb-10">
-                <Image src="/images/icons/Beautya.svg" alt="Beautya" width={100} height={30} className="h-7 w-auto" />
-                <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu" className="text-[#888] hover:text-[#C8547A] transition-colors">
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              <nav className="flex flex-col gap-6">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-lg font-semibold text-[#1a1a1a] hover:text-[#C8547A] transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </nav>
-              {!isLoggedIn && (
-                <div className="mt-auto pt-8 border-t border-gray-100">
-                  <Link
-                    href="/auth/login"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="w-full flex items-center justify-center py-3 rounded-full bg-[#C8547A] text-white font-semibold text-sm hover:bg-[#b04468] transition-colors"
-                  >
-                    Sign In
-                  </Link>
-                </div>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Menu */}
+      <MobileMenu 
+        isOpen={isMobileMenuOpen} 
+        onClose={() => setIsMobileMenuOpen(false)} 
+        navLinks={navLinks.slice(0, 4)}
+        onSearch={() => setIsSearchOpen(true)}
+      />
 
       {/* Cart Drawer */}
       <AnimatePresence>

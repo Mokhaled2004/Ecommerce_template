@@ -25,17 +25,20 @@ export const PRODUCT_CATEGORIES = [
   {
     name: "Women Skincare",
     image: '/images/categories/85f9feb8487a584d0c61a4a3de315f9136224aad.jpg',
-    href: '/shop?category=makeup',
+    href: '/category/skincare',
+    slug: 'skincare',
   },
   {
     name: 'Gifts & Sets',
     image: '/images/categories/4cc55ff691fb82d7c23e99df7b718fbc58191a01.png',
-    href: '/shop?category=skincare',
+    href: '/category/gifts',
+    slug: 'gifts',
   },
   {
     name: "Women's Makeup",
     image: '/images/categories/7a567de32d8ce4047244835fcc25bb89e1687bdf.png',
-    href: '/shop?category=fragrance',
+    href: '/category/makeup',
+    slug: 'makeup',
   },
 ];
 
